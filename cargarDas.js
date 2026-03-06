@@ -381,38 +381,40 @@ function procesarDatosPorDia(data) {
     const agrupados = {};
 
     data.forEach(item => {
-        // Extraemos el timestamp de 'FECHA_FACTURA' como lo enviaste
-        const timestamp = item['FECHA_FACTURA'].match(/\/Date\((\d+)\)\//);
+        // Ahora FECHA_FACTURA es "2026-03-02T09:01:56"
+        const fechaRaw = item['FECHA_FACTURA'];
 
-        if (timestamp && timestamp[1]) {
-            const fechaObj = new Date(parseInt(timestamp[1]));
+        if (fechaRaw) {
+            // Creamos el objeto fecha directamente desde el texto
+            const fechaObj = new Date(fechaRaw);
             
-            // Formatear la fecha en 'dd/MM/yyyy'
-            const dia = String(fechaObj.getDate()).padStart(2, '0');
-            const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
-            const anio = fechaObj.getFullYear();
-            const fecha = `${dia}/${mes}/${anio}`;
+            // Validamos que la fecha sea correcta
+            if (!isNaN(fechaObj)) {
+                // Formatear la fecha en 'dd/MM/yyyy'
+                const dia = String(fechaObj.getDate()).padStart(2, '0');
+                const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
+                const anio = fechaObj.getFullYear();
+                const fechaLabel = `${dia}/${mes}/${anio}`;
 
-            // SUMA DEL TOTAL: Cambiamos el +1 por el valor del campo TOTAL
-            // Aseguramos que sea un número con parseFloat
-            const venta = parseFloat(item['TOTAL'] || 0);
-            agrupados[fecha] = (agrupados[fecha] || 0) + venta;
+                // SUMA DE TOTALES
+                const venta = parseFloat(item['TOTAL'] || 0);
+                agrupados[fechaLabel] = (agrupados[fechaLabel] || 0) + venta;
+            }
         }
     });
 
-    // Ordenar las fechas cronológicamente para que el gráfico no salte
+    // Ordenar cronológicamente
     const fechasOrdenadas = Object.keys(agrupados).sort((a, b) => {
         const [dA, mA, yA] = a.split('/');
         const [dB, mB, yB] = b.split('/');
         return new Date(yA, mA - 1, dA) - new Date(yB, mB - 1, dB);
     });
 
-    // Mapear los valores redondeados a 2 decimales
+    // Formatear valores en miles (K) si prefieres, o dejar el número completo
     const valores = fechasOrdenadas.map(fecha => parseFloat(agrupados[fecha].toFixed(2)));
 
     return { fechas: fechasOrdenadas, valores: valores };
 }
-
 
 // Función para procesar datos por sucursal
 function procesarDatosSucursal(data) {
