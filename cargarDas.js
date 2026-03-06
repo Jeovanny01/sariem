@@ -95,7 +95,7 @@ function actualizarTarjetas(data) {
 
     document.getElementById('kpi-venta-neta').innerText = f.format(totalVenta);
     document.getElementById('kpi-utilidad').innerText = f.format(utilidad);
-    document.getElementById('kpi-margen').innerText = margen.toFixed(2) + '%';
+    document.getElementById('kpi-margen').innerText = margen.toFixed(2) + '';
     document.getElementById('kpi-total-iva').innerText = f.format(totalConIva);
     document.getElementById('kpi-costo').innerText = f.format(totalCosto);
     document.getElementById('kpi-unidades').innerText = totalUnidades.toLocaleString();
@@ -199,7 +199,7 @@ function crearGraficoLinea(datos) {
     },
     font: {
         weight: 'bold',
-        size: 10
+        size: 12
     },
     color: '#000'
                 }
