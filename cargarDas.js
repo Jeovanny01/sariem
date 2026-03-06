@@ -26,23 +26,30 @@ function actualizar(){
     // const conteo = procesarDatosParaGraficoBarra(data);
     // // Crear el gráfico dinámico
     // crearGraficoBarrasIdiomas(conteo);
-} 
-
-function cargarDatos2(fechaInicio,fechaFin) {
-    if (fechaInicio && fechaFin) {
-        fetchData2(fechaInicio, fechaFin)
-        .then(() => {
-                actualizar();
-        })
-        .catch((error) => {
-            console.error("Error al cargar datos:", error);
-        });
-    
-    actualizar;
- 
-} else {
-  alert('Por favor, ingrese las fechas inicial y final.');
 }
+ 
+function cargarDatos2(fechaInicio, fechaFin) {
+    if (fechaInicio && fechaFin) {
+        // 1. Mostrar el cargando
+        const loader = document.getElementById('loader');
+        loader.style.display = 'flex'; 
+
+        fetchData2(fechaInicio, fechaFin)
+            .then(() => {
+                actualizar();
+            })
+            .catch((error) => {
+                console.error("Error al cargar datos:", error);
+                alert("Hubo un problema al obtener los datos.");
+            })
+            .finally(() => {
+                // 2. Ocultar el cargando siempre al terminar
+                loader.style.display = 'none';
+            });
+
+    } else {
+        alert('Por favor, ingrese las fechas inicial y final.');
+    }
 }
 
 
