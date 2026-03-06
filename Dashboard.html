@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <!-- Incluye React y ReactDOM -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <!-- Incluye Babel para JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <!-- Contenedor para el Dashboard -->
+  <div id="registros-root"></div>
+
+  <!-- Código React con Babel -->
+  <script type="text/babel">
+    // Componente Dashboard
+    function Dashboard() {
+      return (
+        <div style={{ padding: "20px" }}>
+          <h1>Dashboard</h1>
+          <p>Bienvenido al panel de control.</p>
+        </div>
+      );
+    }
+
+    // Renderizar Dashboard
+    ReactDOM.render(
+      <Dashboard />,
+      document.getElementById('registros-root')
+    );
+  </script>
+</body>
+</html>
